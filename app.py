@@ -15,25 +15,25 @@ st.set_page_config(page_title="Monitoramento Lattes - PPEB", page_icon="📚", l
 # ==========================================
 st.markdown("""
     <style>
-    /* 1. Esconde os elementos nativos irritantes do Streamlit */
+    /* Esconde os elementos nativos do Streamlit */
     #MainMenu {visibility: hidden;}
     header {visibility: hidden;}
     footer {visibility: hidden;}
     .stDeployButton {display:none;}
     
-    /* 2. Tira o espaço gigante em branco que o Streamlit deixa no topo */
+    /* Tira o espaço gigante em branco do topo */
     .block-container {
         padding-top: 0rem !important;
         padding-bottom: 0rem !important;
         max-width: 1600px;
     }
 
-    /* 3. Cor de fundo idêntica ao Hub */
+    /* Cor de fundo idêntica ao Hub */
     .stApp {
         background-color: #f4f7f6 !important;
     }
 
-    /* 4. CABEÇALHO FALSO (Idêntico ao do HTML do nosso Hub) */
+    /* CABEÇALHO FALSO (Idêntico ao do HTML do Hub) */
     .hub-header {
         background-color: #1c1f6b;
         color: white;
@@ -42,8 +42,8 @@ st.markdown("""
         justify-content: space-between;
         align-items: center;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        margin-left: -5rem;  /* Estica para as bordas da tela */
-        margin-right: -5rem; /* Estica para as bordas da tela */
+        margin-left: -5rem;  
+        margin-right: -5rem; 
         margin-bottom: 30px;
     }
     .hub-header h2 {
@@ -67,13 +67,13 @@ st.markdown("""
         color: #1c1f6b;
     }
 
-    /* 5. Títulos internos em Azul PPEB */
+    /* Títulos internos em Azul PPEB */
     h1, h2, h3 {
         color: #2d3194 !important;
         font-family: 'Segoe UI', Arial, sans-serif;
     }
 
-    /* 6. Botão Laranja (Excel e Ações) */
+    /* Botão Laranja (Excel e Ações) */
     .stDownloadButton>button, .stButton>button {
         background-color: #f57017 !important;
         color: white !important;
@@ -90,7 +90,7 @@ st.markdown("""
         transform: translateY(-2px);
     }
 
-    /* 7. Caixas de Upload e Tabelas com estilo de Card */
+    /* Caixas de Upload e Tabelas */
     .stDataFrame {
         background-color: white;
         border-radius: 12px;
@@ -114,16 +114,15 @@ st.markdown("""
 
     <div class="hub-header">
         <h2>Monitoramento Analítico Lattes</h2>
-        <a href="LINK_DO_SEU_HUB_AQUI.html" target="_self" class="btn-voltar">← Voltar ao Hub</a>
+        <a href="https://LINK_DO_SEU_HUB_AQUI.com" target="_self" class="btn-voltar">← Voltar ao Hub</a>
     </div>
     """, unsafe_allow_html=True)
 
 st.write("Faça o upload dos currículos em formato **PDF** para gerar o relatório automatizado de produção discente e atualização de cadastro.")
 
 # ==========================================
-# FUNÇÕES DE LIMPEZA E CONTAGEM (O RESTO DO SEU CÓDIGO CONTINUA AQUI...)
+# FUNÇÕES DE LIMPEZA E CONTAGEM
 # ==========================================
-def limpar_texto(texto):
 def limpar_texto(texto):
     if not texto: return ""
     texto = str(texto).upper()
@@ -147,7 +146,7 @@ def contar_producao(texto_base, titulo_secao, lista_freios, ano_ingresso):
     return contagem
 
 # ==========================================
-# BASE DE DADOS COMPLETA PPEB (2024-2026) COM LINHAS DE PESQUISA
+# BASE DE DADOS COMPLETA PPEB (2024-2026)
 # ==========================================
 banco_de_dados = {
     # ESTUDANTE INTERNACIONAL / ADICIONAIS
@@ -231,19 +230,15 @@ banco_de_dados = {
     "ANTONIO MATHEUS DO ROSARIO CORREA": {"Nivel": "Doutorado", "Ano": 2026}, "ELANY CRISTINA BARROS DA SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "LUISETE DO ESPIRITO SANTO SOUSA": {"Nivel": "Doutorado", "Ano": 2026}, "MILENA FARIAS E SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "PEDRO CABRAL DA COSTA": {"Nivel": "Doutorado", "Ano": 2026}, "PEDRO VICTOR DA SILVA LEITE": {"Nivel": "Doutorado", "Ano": 2026}, "FRANCINEIDE DA COSTA SOUSA": {"Nivel": "Doutorado", "Ano": 2026}, "GISELE CRISTIANE ANDRADE ALMEIDA": {"Nivel": "Doutorado", "Ano": 2026}, "KELLE DO ROSARIO BRAGA SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "KESIA SILVA DA COSTA": {"Nivel": "Doutorado", "Ano": 2026}, "MHIRLLA DE CASSIA GONCALVES DA COSTA": {"Nivel": "Doutorado", "Ano": 2026}, "NERIVALDO LOPES DE OLIVEIRA": {"Nivel": "Doutorado", "Ano": 2026}, "SHEILA DE NAZARE SILVA FERREIRA": {"Nivel": "Doutorado", "Ano": 2026}, "SIMONE JOSELLE XAVIER DA SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "ADRIANE BARBOSA DE ALMEIDA": {"Nivel": "Doutorado", "Ano": 2026}, "CINTHIA MOTA MEDEIROS DA SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "GISLAYNE CARVALHO PIRES": {"Nivel": "Doutorado", "Ano": 2026}, "JAMYLLE EMILLY PAZ MAIA": {"Nivel": "Doutorado", "Ano": 2026}, "MARCUS VINICIUS DA ROSA RIBEIRO": {"Nivel": "Doutorado", "Ano": 2026}
 }
 
-# ==========================================
-# LISTAS DE CONTROLE
-# ==========================================
 orientadores_ppeb = ["AMELIA MARIA ARAUJO MESQUITA", "ANDRIO ALVES GATINHO", "CLARICE NASCIMENTO DE MELO", "DANIELE DOROTEIA ROCHA DE LIMA", "DINAIR LEAL DA HORA", "DORIEDSON DO SOCORRO RODRIGUES", "EMINA MARCIA NERY DOS SANTOS", "ERINALDO VICENTE CAVALCANTE", "FABRICIO AARAO FREIRE CARVALHO", "GENYLTON ODILON REGO DA ROCHA", "IRLANDA DO SOCORRO DE OLIVEIRA MILEO", "JOAO PAULO DA CONCEICAO ALVES", "JOSE BITTENCOURT DA SILVA", "LIVIA SOUSA DA SILVA", "MARCIO ANTONIO RAIOL DOS SANTOS", "MARIA DO SOCORRO DA COSTA COELHO", "MARIA DE FATIMA MATOS DE SOUZA", "MARIA JOSE AVIZ DO ROSARIO", "NEIDE MARIA FERNANDES RODRIGUES DE SOUSA", "NEY CRISTINA MONTEIRO DE OLIVEIRA", "RAIMUNDO ALBERTO DE FIGUEIREDO DAMASCENO", "RENATO PINHEIRO DA COSTA", "RONALDO MARCOS DE LIMA ARAUJO", "VIVIAN DA SILVA LOBATO", "WILLIAN LAZARETTI DA CONCEICAO", "WILMA DE NAZARE BAIA COELHO"]
 
 termos_genericos = ["GRUPO DE PESQUISA", "NUCLEO DE PESQUISA", "GRUPO DE ESTUDOS", "NUCLEO DE ESTUDOS", "LABORATORIO", "MEMBRO", "INTEGRANTE", "PESQUISADOR"]
 grupos_especificos = ["GEFOR", "DIFERE", "DIFERENCA E EDUCACAO", "GESTAMAZON", "ESTADO E EDUCACAO NA AMAZONIA", "GEPTE", "TRABALHO E EDUCACAO", "GEPEDA", "EDUCACAO E DESENVOLVIMENTO DA AMAZONIA", "GEPHE", "HISTORIA DA EDUCACAO", "TEIA AMAZONIDA", "TERRITORIOS, EDUCACAO INTEGRAL E CIDADANIA", "REPAMFEH", "REDE PANAMAZONICA PARA LA FORMACION Y ENSENANZA DE LA HISTORIA", "HISTEDBR", "HISTORIA, SOCIEDADE E EDUCACAO NO BRASIL", "GEPEBATO", "POLITICAS EDUCACIONAIS NO BAIXO TOCANTINS", "GEPPEB", "POLITICAS PUBLICAS PARA A EDUCACAO BASICA", "EDUJUS", "EDUCACAO E JUSTICA SOCIAL", "GPECCIP", "COMPLEXIDADE, CURRICULO POS-CRITICO", "INCLUDERE", "CURRICULO E FORMACAO DE PROFESSORES NA PERSPECTIVA DA INCLUSAO", "GPHELRA", "HISTORIA, EDUCACAO E LINGUAGEM NA REGIAO AMAZONICA", "GERA", "RELACAO ETNICO-RACIAIS", "LEPED", "EDUCACAO E DESIGUALDADES", "EDUCACAO E JUSTICA", "INTERPRETACAO DO TEMPO", "ENSINO, MEMORIA, NARRATIVA E POLITICA", "TRABALHO, EDUCACAO E FORMACAO HUMANA", "EDUCACAO E DIREITOS HUMANOS", "PRATICAS PEDAGOGICAS PARA O ENSINO NA EDUCACAO BASICA", "MEMORIA E HISTORIA DA EDUCACAO"]
 palavras_chave_grupos = termos_genericos + grupos_especificos
-
 freios_gerais = ["TEXTOS EM JORNAIS", "TRABALHOS COMPLETOS PUBLICADOS EM ANAIS", "RESUMOS EXPANDIDOS", "RESUMOS PUBLICADOS", "ARTIGOS ACEITOS", "APRESENTACOES DE TRABALHO", "OUTRAS PRODUCOES", "PRODUCAO TECNICA", "PARTICIPACAO EM BANCAS", "EVENTOS", "PATENTES", "OUTRAS PARTICIPACOES", "BANCA DE TRABALHOS"]
 
 # ==========================================
-# INTERFACE DO SITE E LÓGICA PRINCIPAL
+# INTERFACE DO SITE E LÓGICA DE UPLOAD
 # ==========================================
 arquivos_upados = st.file_uploader("Arraste e solte os PDFs aqui", type=["pdf"], accept_multiple_files=True)
 
@@ -262,12 +257,10 @@ if arquivos_upados:
             texto_upper = limpar_texto(texto_pdf)
             texto_linha_unica = " ".join(texto_upper.split()) 
             
-            # --- DATA DE ATUALIZAÇÃO ---
             data_atualizacao = "Não informada"
             match_data = re.search(r"ULTIMA ATUALIZACAO DO CURRICULO EM\s*(\d{2}/\d{2}/\d{4})", texto_upper)
             if match_data: data_atualizacao = match_data.group(1)
             
-            # --- LIMPEZA DE NOME DE ARQUIVO ---
             nome_limpo_arq = re.sub(r'(?i)curr[ií]culo do sistema de curr[ií]culos lattes[\s-]*\(?', '', arquivo.name)
             nome_limpo_arq = nome_limpo_arq.replace('.pdf', '').replace(')', '').strip()
             nome_lattes = limpar_texto(nome_limpo_arq)
@@ -284,7 +277,6 @@ if arquivos_upados:
             ano_ref = info['Ano'] if info else 2099
             linha_pesquisa = info.get('Linha', 'Não informada') if info else "Não cadastrado" 
 
-            # --- GRUPO DE PESQUISA ---
             status_grupo = "❌ Não"
             resumo_texto = texto_linha_unica[:3000] 
             for termo in palavras_chave_grupos:
@@ -292,7 +284,6 @@ if arquivos_upados:
                     status_grupo = "✅ Sim"
                     break
 
-            # --- FORMAÇÃO E ORIENTADOR ---
             status_form = "❌ Desatualizada"
             orientador = "Não informado"
             titulo = "Não informado"
@@ -307,7 +298,6 @@ if arquivos_upados:
                     match_o = re.search(r"ORIENTADOR[A]?:\s*(.*?)(?=\n|\.|$)", bloco_formacao)
                     if match_o: orientador = match_o.group(1).replace('\n', ' ').strip(' .:,')
 
-            # --- PROJETOS DE PESQUISA ---
             status_projeto = "❌ Sem projeto"
             match_secao_proj = re.search(r"PROJETOS DE PESQUISA(.*?)(?:AREAS DE ATUACAO|IDIOMAS|PREMIOS|PRODUCOES|ARTIGOS)", texto_upper, re.DOTALL)
             if match_secao_proj:
@@ -315,7 +305,6 @@ if arquivos_upados:
                 if "EM ANDAMENTO" in bloco_proj or "ATUAL" in bloco_proj:
                     status_projeto = "✅ Possui projeto"
 
-            # --- CONTAGEM DE PRODUÇÃO ---
             freios_artigos = ["LIVROS PUBLICADOS", "LIVROS E CAPITULOS", "CAPITULOS DE LIVROS"] + freios_gerais
             artigos_cont = contar_producao(texto_linha_unica, "ARTIGOS COMPLETOS PUBLICADOS EM PERIODICOS", freios_artigos, ano_ref)
             
@@ -341,9 +330,6 @@ if arquivos_upados:
         except Exception as e:
             st.error(f"Erro ao ler o arquivo {arquivo.name}: {e}")
 
-    # ==========================================
-    # GERAÇÃO DA TABELA E DOWNLOAD
-    # ==========================================
     if resultados:
         df = pd.DataFrame(resultados)
         st.success("✅ Relatório gerado com sucesso!")
