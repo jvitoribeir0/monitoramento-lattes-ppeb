@@ -8,46 +8,48 @@ from io import BytesIO
 # ==========================================
 # CONFIGURAÇÃO DA PÁGINA DO SITE
 # ==========================================
+# Desativamos a sidebar para um visual mais limpo (Dashboard)
 st.set_page_config(page_title="Monitoramento Lattes - PPEB", page_icon="📚", layout="wide", initial_sidebar_state="collapsed")
 
 # ==========================================
-# CSS EXTREMO: MASCARANDO O STREAMLIT PARA PARECER COM O HUB
+# CSS PROFISSIONAL E CHARMOSO: O LOOK DO HUB
 # ==========================================
+# ⚠️ Aqui está a mágica: forçamos cores escuras nas fontes e design elegante
 st.markdown("""
     <style>
-    /* Esconde os elementos nativos do Streamlit */
+    /* 1. Esconde menus nativos irritantes do Streamlit (Hambúrguer e Header) */
     #MainMenu {visibility: hidden;}
     header {visibility: hidden;}
     footer {visibility: hidden;}
     .stDeployButton {display:none;}
     
-    /* Tira o espaço gigante em branco do topo */
+    /* 2. Remove o espaço em branco gigante do topo que o Streamlit deixa */
     .block-container {
         padding-top: 0rem !important;
         padding-bottom: 0rem !important;
         max-width: 1600px;
     }
 
-    /* Cor de fundo idêntica ao Hub */
+    /* 3. Cor de fundo idêntica ao Hub (Cinza claro suave) */
     .stApp {
         background-color: #f4f7f6 !important;
     }
 
-    /* CABEÇALHO FALSO (Idêntico ao do HTML do Hub) */
+    /* 4. CABEÇALHO FALSO (Idêntico ao do HTML do Hub - Lindo e Profissional) */
     .hub-header {
-        background-color: #1c1f6b;
+        background-color: #1c1f6b; /* Azul Escuro Oficial */
         color: white;
         padding: 15px 40px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        margin-left: -5rem;  
-        margin-right: -5rem; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        margin-left: -5rem;  /* Estica para as bordas da tela */
+        margin-right: -5rem; /* Estica para as bordas da tela */
         margin-bottom: 30px;
     }
     .hub-header h2 {
-        color: white !important;
+        color: white !important; /* Fonte Branca APENAS no cabeçalho azul */
         margin: 0;
         font-size: 20px;
         font-family: 'Segoe UI', Arial, sans-serif;
@@ -61,36 +63,52 @@ st.markdown("""
         text-decoration: none;
         font-size: 13px;
         transition: 0.3s;
+        font-weight: bold;
     }
     .btn-voltar:hover {
         background-color: white;
         color: #1c1f6b;
     }
 
-    /* Títulos internos em Azul PPEB */
-    h1, h2, h3 {
-        color: #2d3194 !important;
+    /* 5. Títulos e Subtítulos Internos (Estilo Acadêmico em Azul) */
+    h1 {
+        color: #1c1f6b !important; /* Azul PPEB Profundo */
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-weight: 800 !important;
+    }
+    h2, h3 {
+        color: #2d3194 !important; /* Azul Suave */
         font-family: 'Segoe UI', Arial, sans-serif;
     }
 
-    /* Botão Laranja (Excel e Ações) */
-    .stDownloadButton>button, .stButton>button {
-        background-color: #f57017 !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 12px !important;
-        font-weight: bold !important;
-        box-shadow: 0 4px 10px rgba(245, 112, 23, 0.3) !important;
-        width: 100%;
-        transition: 0.3s;
-    }
-    .stDownloadButton>button:hover, .stButton>button:hover {
-        background-color: #d95e0f !important;
-        transform: translateY(-2px);
+    /* 6. BLINDAGEM DE FONTES: Force Preto/Cinza Escuro no fundo claro */
+    p, span, li, div, label {
+        color: #333333 !important; /* Cinza Escuro - Leitura perfeita no branco */
+        font-family: 'Segoe UI', Arial, sans-serif;
     }
 
-    /* Caixas de Upload e Tabelas */
+    /* 7. Design do Botão de Download do Excel (Botão Laranja Principal) */
+    .stDownloadButton>button {
+        background-color: #f57017 !important; /* Laranja Oficial */
+        color: white !important; /* Fonte Branca no Laranja */
+        border: none !important;
+        width: 100% !important;
+        padding: 15px !important;
+        border-radius: 8px !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 12px rgba(245, 112, 23, 0.3) !important;
+        transition: 0.3s ease-out;
+    }
+    .stDownloadButton>button:hover {
+        background-color: #d95e0f !important;
+        transform: translateY(-3px); /* Efeito de elevação chique */
+        box-shadow: 0 6px 15px rgba(245, 112, 23, 0.4) !important;
+    }
+    
+    /* 8. Estilo de Tabela (Cards arredondados e limpos) */
     .stDataFrame {
         background-color: white;
         border-radius: 12px;
@@ -98,17 +116,23 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         border: 1px solid #eee;
     }
+    
+    /* 9. Estilo da Caixa de Upload (Card Arredondado Laranja) */
     .stFileUploader {
         background-color: white;
-        padding: 20px;
+        padding: 25px;
         border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        border-top: 4px solid #f57017;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+        border-top: 5px solid #f57017; /* Linha Laranja no topo */
     }
     .stFileUploader>div>div>div>button {
-        background-color: #2d3194 !important;
+        background-color: #2d3194 !important; /* Botão buscar em Azul */
         color: white !important;
         border-radius: 6px !important;
+        font-weight: bold !important;
+    }
+    .stFileUploader>div>div>div>button:hover {
+        background-color: #1c1f6b !important;
     }
     </style>
 
@@ -146,7 +170,7 @@ def contar_producao(texto_base, titulo_secao, lista_freios, ano_ingresso):
     return contagem
 
 # ==========================================
-# BASE DE DADOS COMPLETA PPEB (2024-2026)
+# BASE DE DADOS COMPLETA PPEB (2024-2026) COM LINHAS DE PESQUISA
 # ==========================================
 banco_de_dados = {
     # ESTUDANTE INTERNACIONAL / ADICIONAIS
@@ -230,15 +254,19 @@ banco_de_dados = {
     "ANTONIO MATHEUS DO ROSARIO CORREA": {"Nivel": "Doutorado", "Ano": 2026}, "ELANY CRISTINA BARROS DA SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "LUISETE DO ESPIRITO SANTO SOUSA": {"Nivel": "Doutorado", "Ano": 2026}, "MILENA FARIAS E SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "PEDRO CABRAL DA COSTA": {"Nivel": "Doutorado", "Ano": 2026}, "PEDRO VICTOR DA SILVA LEITE": {"Nivel": "Doutorado", "Ano": 2026}, "FRANCINEIDE DA COSTA SOUSA": {"Nivel": "Doutorado", "Ano": 2026}, "GISELE CRISTIANE ANDRADE ALMEIDA": {"Nivel": "Doutorado", "Ano": 2026}, "KELLE DO ROSARIO BRAGA SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "KESIA SILVA DA COSTA": {"Nivel": "Doutorado", "Ano": 2026}, "MHIRLLA DE CASSIA GONCALVES DA COSTA": {"Nivel": "Doutorado", "Ano": 2026}, "NERIVALDO LOPES DE OLIVEIRA": {"Nivel": "Doutorado", "Ano": 2026}, "SHEILA DE NAZARE SILVA FERREIRA": {"Nivel": "Doutorado", "Ano": 2026}, "SIMONE JOSELLE XAVIER DA SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "ADRIANE BARBOSA DE ALMEIDA": {"Nivel": "Doutorado", "Ano": 2026}, "CINTHIA MOTA MEDEIROS DA SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "GISLAYNE CARVALHO PIRES": {"Nivel": "Doutorado", "Ano": 2026}, "JAMYLLE EMILLY PAZ MAIA": {"Nivel": "Doutorado", "Ano": 2026}, "MARCUS VINICIUS DA ROSA RIBEIRO": {"Nivel": "Doutorado", "Ano": 2026}
 }
 
+# ==========================================
+# LISTAS DE CONTROLE
+# ==========================================
 orientadores_ppeb = ["AMELIA MARIA ARAUJO MESQUITA", "ANDRIO ALVES GATINHO", "CLARICE NASCIMENTO DE MELO", "DANIELE DOROTEIA ROCHA DE LIMA", "DINAIR LEAL DA HORA", "DORIEDSON DO SOCORRO RODRIGUES", "EMINA MARCIA NERY DOS SANTOS", "ERINALDO VICENTE CAVALCANTE", "FABRICIO AARAO FREIRE CARVALHO", "GENYLTON ODILON REGO DA ROCHA", "IRLANDA DO SOCORRO DE OLIVEIRA MILEO", "JOAO PAULO DA CONCEICAO ALVES", "JOSE BITTENCOURT DA SILVA", "LIVIA SOUSA DA SILVA", "MARCIO ANTONIO RAIOL DOS SANTOS", "MARIA DO SOCORRO DA COSTA COELHO", "MARIA DE FATIMA MATOS DE SOUZA", "MARIA JOSE AVIZ DO ROSARIO", "NEIDE MARIA FERNANDES RODRIGUES DE SOUSA", "NEY CRISTINA MONTEIRO DE OLIVEIRA", "RAIMUNDO ALBERTO DE FIGUEIREDO DAMASCENO", "RENATO PINHEIRO DA COSTA", "RONALDO MARCOS DE LIMA ARAUJO", "VIVIAN DA SILVA LOBATO", "WILLIAN LAZARETTI DA CONCEICAO", "WILMA DE NAZARE BAIA COELHO"]
 
 termos_genericos = ["GRUPO DE PESQUISA", "NUCLEO DE PESQUISA", "GRUPO DE ESTUDOS", "NUCLEO DE ESTUDOS", "LABORATORIO", "MEMBRO", "INTEGRANTE", "PESQUISADOR"]
 grupos_especificos = ["GEFOR", "DIFERE", "DIFERENCA E EDUCACAO", "GESTAMAZON", "ESTADO E EDUCACAO NA AMAZONIA", "GEPTE", "TRABALHO E EDUCACAO", "GEPEDA", "EDUCACAO E DESENVOLVIMENTO DA AMAZONIA", "GEPHE", "HISTORIA DA EDUCACAO", "TEIA AMAZONIDA", "TERRITORIOS, EDUCACAO INTEGRAL E CIDADANIA", "REPAMFEH", "REDE PANAMAZONICA PARA LA FORMACION Y ENSENANZA DE LA HISTORIA", "HISTEDBR", "HISTORIA, SOCIEDADE E EDUCACAO NO BRASIL", "GEPEBATO", "POLITICAS EDUCACIONAIS NO BAIXO TOCANTINS", "GEPPEB", "POLITICAS PUBLICAS PARA A EDUCACAO BASICA", "EDUJUS", "EDUCACAO E JUSTICA SOCIAL", "GPECCIP", "COMPLEXIDADE, CURRICULO POS-CRITICO", "INCLUDERE", "CURRICULO E FORMACAO DE PROFESSORES NA PERSPECTIVA DA INCLUSAO", "GPHELRA", "HISTORIA, EDUCACAO E LINGUAGEM NA REGIAO AMAZONICA", "GERA", "RELACAO ETNICO-RACIAIS", "LEPED", "EDUCACAO E DESIGUALDADES", "EDUCACAO E JUSTICA", "INTERPRETACAO DO TEMPO", "ENSINO, MEMORIA, NARRATIVA E POLITICA", "TRABALHO, EDUCACAO E FORMACAO HUMANA", "EDUCACAO E DIREITOS HUMANOS", "PRATICAS PEDAGOGICAS PARA O ENSINO NA EDUCACAO BASICA", "MEMORIA E HISTORIA DA EDUCACAO"]
 palavras_chave_grupos = termos_genericos + grupos_especificos
+
 freios_gerais = ["TEXTOS EM JORNAIS", "TRABALHOS COMPLETOS PUBLICADOS EM ANAIS", "RESUMOS EXPANDIDOS", "RESUMOS PUBLICADOS", "ARTIGOS ACEITOS", "APRESENTACOES DE TRABALHO", "OUTRAS PRODUCOES", "PRODUCAO TECNICA", "PARTICIPACAO EM BANCAS", "EVENTOS", "PATENTES", "OUTRAS PARTICIPACOES", "BANCA DE TRABALHOS"]
 
 # ==========================================
-# INTERFACE DO SITE E LÓGICA DE UPLOAD
+# INTERFACE DO SITE E LÓGICA PRINCIPAL
 # ==========================================
 arquivos_upados = st.file_uploader("Arraste e solte os PDFs aqui", type=["pdf"], accept_multiple_files=True)
 
@@ -257,10 +285,12 @@ if arquivos_upados:
             texto_upper = limpar_texto(texto_pdf)
             texto_linha_unica = " ".join(texto_upper.split()) 
             
+            # --- DATA DE ATUALIZAÇÃO ---
             data_atualizacao = "Não informada"
             match_data = re.search(r"ULTIMA ATUALIZACAO DO CURRICULO EM\s*(\d{2}/\d{2}/\d{4})", texto_upper)
             if match_data: data_atualizacao = match_data.group(1)
             
+            # --- LIMPEZA DE NOME DE ARQUIVO ---
             nome_limpo_arq = re.sub(r'(?i)curr[ií]culo do sistema de curr[ií]culos lattes[\s-]*\(?', '', arquivo.name)
             nome_limpo_arq = nome_limpo_arq.replace('.pdf', '').replace(')', '').strip()
             nome_lattes = limpar_texto(nome_limpo_arq)
@@ -277,6 +307,7 @@ if arquivos_upados:
             ano_ref = info['Ano'] if info else 2099
             linha_pesquisa = info.get('Linha', 'Não informada') if info else "Não cadastrado" 
 
+            # --- GRUPO DE PESQUISA ---
             status_grupo = "❌ Não"
             resumo_texto = texto_linha_unica[:3000] 
             for termo in palavras_chave_grupos:
@@ -284,6 +315,7 @@ if arquivos_upados:
                     status_grupo = "✅ Sim"
                     break
 
+            # --- FORMAÇÃO E ORIENTADOR ---
             status_form = "❌ Desatualizada"
             orientador = "Não informado"
             titulo = "Não informado"
@@ -298,6 +330,7 @@ if arquivos_upados:
                     match_o = re.search(r"ORIENTADOR[A]?:\s*(.*?)(?=\n|\.|$)", bloco_formacao)
                     if match_o: orientador = match_o.group(1).replace('\n', ' ').strip(' .:,')
 
+            # --- PROJETOS DE PESQUISA ---
             status_projeto = "❌ Sem projeto"
             match_secao_proj = re.search(r"PROJETOS DE PESQUISA(.*?)(?:AREAS DE ATUACAO|IDIOMAS|PREMIOS|PRODUCOES|ARTIGOS)", texto_upper, re.DOTALL)
             if match_secao_proj:
@@ -305,6 +338,7 @@ if arquivos_upados:
                 if "EM ANDAMENTO" in bloco_proj or "ATUAL" in bloco_proj:
                     status_projeto = "✅ Possui projeto"
 
+            # --- CONTAGEM DE PRODUÇÃO ---
             freios_artigos = ["LIVROS PUBLICADOS", "LIVROS E CAPITULOS", "CAPITULOS DE LIVROS"] + freios_gerais
             artigos_cont = contar_producao(texto_linha_unica, "ARTIGOS COMPLETOS PUBLICADOS EM PERIODICOS", freios_artigos, ano_ref)
             
@@ -330,6 +364,9 @@ if arquivos_upados:
         except Exception as e:
             st.error(f"Erro ao ler o arquivo {arquivo.name}: {e}")
 
+    # ==========================================
+    # GERAÇÃO DA TABELA E DOWNLOAD
+    # ==========================================
     if resultados:
         df = pd.DataFrame(resultados)
         st.success("✅ Relatório gerado com sucesso!")
