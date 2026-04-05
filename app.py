@@ -8,95 +8,122 @@ from io import BytesIO
 # ==========================================
 # CONFIGURAÇÃO DA PÁGINA DO SITE
 # ==========================================
-st.set_page_config(page_title="Monitoramento Lattes - PPEB", page_icon="📚", layout="wide")
+st.set_page_config(page_title="Monitoramento Lattes - PPEB", page_icon="📚", layout="wide", initial_sidebar_state="collapsed")
 
 # ==========================================
-# INJEÇÃO DE CSS: O VISUAL DO HUB PPEB
+# CSS EXTREMO: MASCARANDO O STREAMLIT PARA PARECER COM O HUB
 # ==========================================
 st.markdown("""
     <style>
-    /* Cor de fundo principal e cor do texto */
-    .stApp {
-        background-color: #f4f7f6;
-    }
+    /* 1. Esconde os elementos nativos irritantes do Streamlit */
+    #MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
+    footer {visibility: hidden;}
+    .stDeployButton {display:none;}
     
-    /* Caixa principal (Card branco com borda) */
+    /* 2. Tira o espaço gigante em branco que o Streamlit deixa no topo */
     .block-container {
-        background-color: #ffffff;
-        padding: 3rem;
-        border-radius: 16px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        border-top: 5px solid #2d3194; /* Azul PPEB no topo */
+        padding-top: 0rem !important;
+        padding-bottom: 0rem !important;
+        max-width: 1600px;
     }
 
-    /* Estilizando os botões para Laranja PPEB */
-    .stButton>button {
-        background-color: #f57017;
+    /* 3. Cor de fundo idêntica ao Hub */
+    .stApp {
+        background-color: #f4f7f6 !important;
+    }
+
+    /* 4. CABEÇALHO FALSO (Idêntico ao do HTML do nosso Hub) */
+    .hub-header {
+        background-color: #1c1f6b;
         color: white;
-        font-weight: bold;
-        border-radius: 8px;
-        border: none;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-left: -5rem;  /* Estica para as bordas da tela */
+        margin-right: -5rem; /* Estica para as bordas da tela */
+        margin-bottom: 30px;
     }
-    .stButton>button:hover {
-        background-color: #d95e0f;
-        color: white;
-    }
-    
-    /* Títulos em Azul Escuro PPEB */
-    h1, h2, h3 {
-        color: #1c1f6b !important;
-        font-family: 'Segoe UI', Arial, sans-serif;
-    }
-
-    /* Textos normais */
-    p, span, div {
-        color: #333333;
-        font-family: 'Segoe UI', Arial, sans-serif;
-    }
-
-    /* Caixa de Upload */
-    .stFileUploader>div>div>div>button {
-        background-color: #2d3194 !important;
+    .hub-header h2 {
         color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        font-weight: bold !important;
+        margin: 0;
+        font-size: 20px;
+        font-family: 'Segoe UI', Arial, sans-serif;
     }
-    .stFileUploader>div>div>div>button:hover {
-        background-color: #1c1f6b !important;
+    .btn-voltar {
+        background: transparent;
+        border: 1px solid white;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 13px;
+        transition: 0.3s;
+    }
+    .btn-voltar:hover {
+        background-color: white;
+        color: #1c1f6b;
     }
 
-    /* Botão de Download do Excel (Botão Laranja Principal) */
-    .stDownloadButton>button {
+    /* 5. Títulos internos em Azul PPEB */
+    h1, h2, h3 {
+        color: #2d3194 !important;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    /* 6. Botão Laranja (Excel e Ações) */
+    .stDownloadButton>button, .stButton>button {
         background-color: #f57017 !important;
         color: white !important;
         border: none !important;
-        width: 100% !important;
-        padding: 15px !important;
         border-radius: 8px !important;
-        font-size: 16px !important;
+        padding: 12px !important;
         font-weight: bold !important;
         box-shadow: 0 4px 10px rgba(245, 112, 23, 0.3) !important;
+        width: 100%;
         transition: 0.3s;
     }
-    .stDownloadButton>button:hover {
+    .stDownloadButton>button:hover, .stButton>button:hover {
         background-color: #d95e0f !important;
+        transform: translateY(-2px);
     }
-    
-    /* Tabela de Resultados */
+
+    /* 7. Caixas de Upload e Tabelas com estilo de Card */
     .stDataFrame {
+        background-color: white;
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         border: 1px solid #eee;
-        border-radius: 8px;
+    }
+    .stFileUploader {
+        background-color: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border-top: 4px solid #f57017;
+    }
+    .stFileUploader>div>div>div>button {
+        background-color: #2d3194 !important;
+        color: white !important;
+        border-radius: 6px !important;
     }
     </style>
+
+    <div class="hub-header">
+        <h2>Monitoramento Analítico Lattes</h2>
+        <a href="LINK_DO_SEU_HUB_AQUI.html" target="_self" class="btn-voltar">← Voltar ao Hub</a>
+    </div>
     """, unsafe_allow_html=True)
 
-st.title("📚 Monitoramento Analítico Lattes - PPEB")
 st.write("Faça o upload dos currículos em formato **PDF** para gerar o relatório automatizado de produção discente e atualização de cadastro.")
 
 # ==========================================
-# FUNÇÕES DE LIMPEZA E CONTAGEM
+# FUNÇÕES DE LIMPEZA E CONTAGEM (O RESTO DO SEU CÓDIGO CONTINUA AQUI...)
 # ==========================================
+def limpar_texto(texto):
 def limpar_texto(texto):
     if not texto: return ""
     texto = str(texto).upper()
