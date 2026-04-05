@@ -11,53 +11,50 @@ from io import BytesIO
 st.set_page_config(page_title="Monitoramento Lattes - PPEB", page_icon="📚", layout="wide", initial_sidebar_state="collapsed")
 
 # ==========================================
-# CSS E CABEÇALHO BLINDADOS
+# CSS EXTREMO E CABEÇALHO BLINDADO
 # ==========================================
 st.markdown("""
     <style>
-    /* Esconde os menus nativos do Streamlit */
+    /* Esconde os elementos nativos do Streamlit */
     #MainMenu {visibility: hidden;}
     header {visibility: hidden;}
     footer {visibility: hidden;}
     .stDeployButton {display:none;}
     
-    /* Remove o espaço em branco gigante do topo */
+    /* Tira o espaço gigante em branco do topo */
     .block-container {
         padding-top: 2rem !important;
         padding-bottom: 0rem !important;
         max-width: 1600px;
     }
 
-    /* Cor de fundo do sistema */
+    /* Cor de fundo idêntica ao Hub */
     .stApp {
         background-color: #f4f7f6 !important;
     }
 
-    /* Protegendo os textos nativos do Streamlit para ficarem escuros */
-    .stMarkdown h1 { color: #1c1f6b !important; font-weight: 800 !important; }
-    .stMarkdown h2, .stMarkdown h3 { color: #2d3194 !important; }
-    .stMarkdown p, .stMarkdown span, .stMarkdown li { color: #333333 !important; }
+    /* Textos internos (Garante legibilidade) */
+    .stMarkdown p, .stMarkdown li { color: #333333 !important; font-family: 'Segoe UI', Arial, sans-serif;}
 
-    /* Design do Botão de Download (Laranja) */
+    /* Botões Laranjas */
     .stDownloadButton>button, .stButton>button {
         background-color: #f57017 !important;
         color: white !important;
         border: none !important;
-        width: 100% !important;
-        padding: 15px !important;
         border-radius: 8px !important;
-        font-size: 16px !important;
+        padding: 15px !important;
         font-weight: bold !important;
         text-transform: uppercase;
-        box-shadow: 0 4px 12px rgba(245, 112, 23, 0.3) !important;
-        transition: 0.3s ease-out;
+        box-shadow: 0 4px 10px rgba(245, 112, 23, 0.3) !important;
+        width: 100%;
+        transition: 0.3s;
     }
     .stDownloadButton>button:hover, .stButton>button:hover {
         background-color: #d95e0f !important;
-        transform: translateY(-3px);
+        transform: translateY(-2px);
     }
-    
-    /* Estilo da Tabela e Caixa de Upload */
+
+    /* Caixas de Upload e Tabelas */
     .stDataFrame {
         background-color: white;
         border-radius: 12px;
@@ -67,25 +64,25 @@ st.markdown("""
     }
     .stFileUploader {
         background-color: white;
-        padding: 25px;
+        padding: 20px;
         border-radius: 12px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.05);
-        border-top: 5px solid #f57017;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border-top: 4px solid #f57017;
     }
     .stFileUploader>div>div>div>button {
         background-color: #2d3194 !important;
         color: white !important;
         border-radius: 6px !important;
-        font-weight: bold !important;
     }
     </style>
 
-    <div style="background-color: #1c1f6b; padding: 20px 40px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 6px 15px rgba(0,0,0,0.1); margin-bottom: 25px;">
-        <h2 style="color: #ffffff !important; margin: 0 !important; font-size: 24px !important; font-weight: bold !important; border: none !important; padding: 0 !important;">Monitoramento Analítico Lattes</h2>
-        <a href="LINK_DO_SEU_HUB_AQUI.html" target="_self" style="background: transparent; border: 1px solid white; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold; transition: 0.3s;">← Voltar ao Hub</a>
+    <div style="background-color: #1c1f6b; padding: 20px 40px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 6px 15px rgba(0,0,0,0.1); margin-bottom: 20px;">
+        <span style="color: #ffffff !important; font-size: 26px; font-weight: 800; font-family: 'Segoe UI', Arial, sans-serif; letter-spacing: 0.5px;">📚 Monitoramento Analítico Lattes</span>
+        <a href="LINK_DO_SEU_HUB_AQUI.html" target="_self" style="background: transparent; border: 1px solid white; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: bold; transition: 0.3s;">← Voltar ao Hub</a>
     </div>
     """, unsafe_allow_html=True)
 
+# Descrição logo abaixo do cabeçalho
 st.write("Faça o upload dos currículos em formato **PDF** para gerar o relatório automatizado de produção discente e atualização de cadastro.")
 
 # ==========================================
@@ -114,13 +111,10 @@ def contar_producao(texto_base, titulo_secao, lista_freios, ano_ingresso):
     return contagem
 
 # ==========================================
-# BASE DE DADOS COMPLETA PPEB (2024-2026) COM LINHAS DE PESQUISA
+# BASE DE DADOS COMPLETA PPEB (2024-2026)
 # ==========================================
 banco_de_dados = {
-    # ESTUDANTE INTERNACIONAL / ADICIONAIS
     "OLUWATOYOSI HELEN KUSHINA": {"Nivel": "Mestrado", "Ano": 2025, "Linha": "Currículo da Educação Básica"},
-
-    # MESTRADO 2025
     "ADRIANNY COSTA DA SILVA": {"Nivel": "Mestrado", "Ano": 2025, "Linha": "Currículo da Educação Básica"},
     "AMANDA XAVIER DA COSTA CAZARES": {"Nivel": "Mestrado", "Ano": 2025, "Linha": "Currículo da Educação Básica"},
     "CARLA GABRIELLA MORAES DE MELO": {"Nivel": "Mestrado", "Ano": 2025, "Linha": "Currículo da Educação Básica"},
@@ -148,8 +142,6 @@ banco_de_dados = {
     "JESSICA MARCELA PEDREIRA DA SILVA": {"Nivel": "Mestrado", "Ano": 2025, "Linha": "História da Educação Básica"},
     "LORENA CRISTINA GONZAGA PEREIRA": {"Nivel": "Mestrado", "Ano": 2025, "Linha": "História da Educação Básica"},
     "THAMYRES POLLYANA DA CRUZ TEIXEIRA": {"Nivel": "Mestrado", "Ano": 2025, "Linha": "História da Educação Básica"},
-
-    # DOUTORADO 2024
     "ALINE BRANDAO DE MORAES DE AZEVEDO": {"Nivel": "Doutorado", "Ano": 2024, "Linha": "Currículo da Educação Básica"},
     "ELANE CRISTINA PINHEIRO MONTEIRO": {"Nivel": "Doutorado", "Ano": 2024, "Linha": "Currículo da Educação Básica"},
     "IRACEMA DOS SANTOS TELES": {"Nivel": "Doutorado", "Ano": 2024, "Linha": "Currículo da Educação Básica"},
@@ -169,8 +161,6 @@ banco_de_dados = {
     "DOUGLAS DE OLIVEIRA E OLIVEIRA": {"Nivel": "Doutorado", "Ano": 2024, "Linha": "História da Educação"},
     "NEIDE ANDRADE DA SILVA": {"Nivel": "Doutorado", "Ano": 2024, "Linha": "História da Educação"},
     "THAIS PIMENTA PIMENTEL": {"Nivel": "Doutorado", "Ano": 2024, "Linha": "História da Educação"},
-
-    # DOUTORADO 2025
     "AMANDA JESSICA COELHO MELO": {"Nivel": "Doutorado", "Ano": 2025, "Linha": "Currículo da Educação Básica"},
     "BIANCA MORAIS CARNEIRO": {"Nivel": "Doutorado", "Ano": 2025, "Linha": "Currículo da Educação Básica"},
     "CARLOS AFONSO FERREIRA DOS SANTOS": {"Nivel": "Doutorado", "Ano": 2025, "Linha": "Currículo da Educação Básica"},
@@ -192,8 +182,6 @@ banco_de_dados = {
     "LANNA KARINA ARAUJO DE LIMA RODRIGUES": {"Nivel": "Doutorado", "Ano": 2025, "Linha": "História da Educação Básica"},
     "MAIRA REGINA FARIAS MACIEL": {"Nivel": "Doutorado", "Ano": 2025, "Linha": "História da Educação Básica"},
     "SUZAN DO SOCORRO BRITO DE LOPES": {"Nivel": "Doutorado", "Ano": 2025, "Linha": "História da Educação Básica"},
-
-    # TURMAS 2026 (Linha a definir)
     "ALINE BAIA DOS SANTOS": {"Nivel": "Mestrado", "Ano": 2026}, "BIANCA PORTILHO GUIMARAES": {"Nivel": "Mestrado", "Ano": 2026}, "DENISE SENA DA SILVA": {"Nivel": "Mestrado", "Ano": 2026}, "GABRIEL DIAS FERNANDES": {"Nivel": "Mestrado", "Ano": 2026}, "GLENDA KELLY RIBEIRO DA SILVA DE AVILA": {"Nivel": "Mestrado", "Ano": 2026}, "JANE GARETE SARAIVA TEIXEIRA": {"Nivel": "Mestrado", "Ano": 2026}, "JULIANA REBELO ELESBAO": {"Nivel": "Mestrado", "Ano": 2026}, "THAIANE DOS SANTOS SILVA": {"Nivel": "Mestrado", "Ano": 2026}, "ADRIA JUNNYELLY MARIA SILVA CUNHA": {"Nivel": "Mestrado", "Ano": 2026}, "ALAN LIMA DE SIQUEIRA": {"Nivel": "Mestrado", "Ano": 2026}, "ALBERTO FERREIRA DE ANDRADE JUNIOR": {"Nivel": "Mestrado", "Ano": 2026}, "ELIZAMA SILVA PEREIRA": {"Nivel": "Mestrado", "Ano": 2026}, "IAGO QUINTO BRANDAO": {"Nivel": "Mestrado", "Ano": 2026}, "LUANA PATRICIA PAIXAO MACIEL": {"Nivel": "Mestrado", "Ano": 2026}, "RITA DE CASSIA SANTANA DE MATOS": {"Nivel": "Mestrado", "Ano": 2026}, "ANDRESSA RAFAELLA CRUZ DE MORAES": {"Nivel": "Mestrado", "Ano": 2026}, "ARIEL COSTA WANZELER": {"Nivel": "Mestrado", "Ano": 2026}, "JHANIELLY GONCALVES BARBOSA": {"Nivel": "Mestrado", "Ano": 2026}, "KEWIN JULYANA ROCHA LOPES": {"Nivel": "Mestrado", "Ano": 2026}, "LARISSA MEDEIROS BRAGANCA SANTOS": {"Nivel": "Mestrado", "Ano": 2026}, "MARCELIA PROTAZIO DOS SANTOS OLIVEIRA": {"Nivel": "Mestrado", "Ano": 2026}, "RODRIGO MIRA DO NASCIMENTO": {"Nivel": "Mestrado", "Ano": 2026}, "SANDRA HELENA RABELLO LEAO": {"Nivel": "Mestrado", "Ano": 2026}, "YARA ISRAELLE LOPES TORRES": {"Nivel": "Mestrado", "Ano": 2026},
     "ANTONIO MATHEUS DO ROSARIO CORREA": {"Nivel": "Doutorado", "Ano": 2026}, "ELANY CRISTINA BARROS DA SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "LUISETE DO ESPIRITO SANTO SOUSA": {"Nivel": "Doutorado", "Ano": 2026}, "MILENA FARIAS E SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "PEDRO CABRAL DA COSTA": {"Nivel": "Doutorado", "Ano": 2026}, "PEDRO VICTOR DA SILVA LEITE": {"Nivel": "Doutorado", "Ano": 2026}, "FRANCINEIDE DA COSTA SOUSA": {"Nivel": "Doutorado", "Ano": 2026}, "GISELE CRISTIANE ANDRADE ALMEIDA": {"Nivel": "Doutorado", "Ano": 2026}, "KELLE DO ROSARIO BRAGA SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "KESIA SILVA DA COSTA": {"Nivel": "Doutorado", "Ano": 2026}, "MHIRLLA DE CASSIA GONCALVES DA COSTA": {"Nivel": "Doutorado", "Ano": 2026}, "NERIVALDO LOPES DE OLIVEIRA": {"Nivel": "Doutorado", "Ano": 2026}, "SHEILA DE NAZARE SILVA FERREIRA": {"Nivel": "Doutorado", "Ano": 2026}, "SIMONE JOSELLE XAVIER DA SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "ADRIANE BARBOSA DE ALMEIDA": {"Nivel": "Doutorado", "Ano": 2026}, "CINTHIA MOTA MEDEIROS DA SILVA": {"Nivel": "Doutorado", "Ano": 2026}, "GISLAYNE CARVALHO PIRES": {"Nivel": "Doutorado", "Ano": 2026}, "JAMYLLE EMILLY PAZ MAIA": {"Nivel": "Doutorado", "Ano": 2026}, "MARCUS VINICIUS DA ROSA RIBEIRO": {"Nivel": "Doutorado", "Ano": 2026}
 }
